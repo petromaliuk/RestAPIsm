@@ -1,4 +1,4 @@
-# Social Media Application(I didnot finished yet)
+# Social Media Application(in progress)
 
 ## Description
 
@@ -20,7 +20,7 @@ This is a simple social media application built using Spring Boot, Hibernate, an
 
 ## Setup Instructions
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/petromaliuk/RestAPIsm.git
-   cd social-media-app
+1. Clone the repository
+2. Create new db in PostgreSQL
+3. Set up spring.datasource.[username, url, password] in application.properties
+4. Run ./mvnw spring-boot:run

@@ -1,0 +1,244 @@
+Do it step by step: Build a RESTful API for a simple social media application using Spring Boot, Hibernate, and PostgreSQL. The application should allow users to create and view posts, follow other users, and like posts. Each post should have a title, body, and author. Use Hibernate to persist the post and user data in the database.
+Acceptance criteria for self-review:
+There are all the required codes and configs in the repository to run the application.
+There is a readme.md file with the application description and instructions on how to run it.
+Code is of good quality and easy to read and understand.
+There are unit tests in place, coverage >80%
+There are quality checks (coverage, complexity, check style)
+ChatGPT conversation logs are attached in the file chat.log
+Short feedback for each task added to readme.md in the following format: - Was it easy to complete the task using AI? - How long did task take you to complete? (Please be honest, we need it to gather anonymized statistics) - Was the code ready to run after generation? What did you have to change to make it usable?- Which challenges did you face during completion of the task?- Which specific prompts you learned as a good practice to complete the task?
+
+
+Usage statistics
+Building a RESTful API for a social media application using Spring Boot, Hibernate, and PostgreSQL involves several steps. Here's a step-by-step guide to help you through the process:
+
+Step 1: Set Up the Project
+Create a new Spring Boot project:
+
+Use Spring Initializr to generate a new project with dependencies for Spring Web, Spring Data JPA, and PostgreSQL Driver.
+Configure the application properties:
+
+In src/main/resources/application.properties, configure the database connection:
+properties
+
+
+spring.datasource.url=jdbc:postgresql://localhost:5432/social_media
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+Step 2: Define the Entity Models
+Create the User entity:
+
+java
+
+
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private String email;
+    // Getters and setters
+}
+Create the Post entity:
+
+java
+
+
+@Entity
+public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String title;
+    private String body;
+    @ManyToOne
+    private User author;
+    // Getters and setters
+}
+Step 3: Create Repositories
+Create UserRepository:
+
+java
+
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+}
+Create PostRepository:
+
+java
+
+
+public interface PostRepository extends JpaRepository<Post, Long> {
+    List<Post> findByAuthor(User author);
+}
+Step 4: Implement Services
+Create UserService:
+
+java
+
+
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+    // Methods to handle user operations
+}
+Create PostService:
+
+java
+
+
+@Service
+public class PostService {
+    @Autowired
+    private PostRepository postRepository;
+    // Methods to handle post operations
+}
+Step 5: Develop Controllers
+Create UserController:
+
+java
+
+
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    @Autowired
+    private UserService userService;
+    // Endpoints for user operations
+}
+Create PostController:
+
+java
+
+
+@RestController
+@RequestMapping("/posts")
+public class PostController {
+    @Autowired
+    private PostService postService;
+    // Endpoints for post operations
+}
+Step 6: Implement Business Logic
+Implement methods in services to handle creating posts, following users, liking posts, etc.
+Step 7: Write Unit Tests
+Use JUnit and Mockito to write unit tests for your services and controllers.
+Ensure coverage is above 80%.
+Step 8: Quality Checks
+Use tools like Checkstyle, PMD, and SonarQube for code quality checks.
+Step 9: Documentation
+Create README.md:
+Include application description, setup instructions, and feedback for each task.
+Step 10: Review and Feedback
+Review the code for readability and quality.
+Attach conversation logs in chat.log.
+Add feedback in README.md as specified.
+Step 11: Challenges and Best Practices
+Document any challenges faced and best practices learned during the process in README.md.
+Step 12: Finalize and Test
+Ensure all configurations are correct and test the application thoroughly.
+This guide provides a structured approach to building the application. If you need further assistance with specific code snippets or configurations, feel free to ask!
+
+Write me a readme file
+
+Usage statistics
+Here's a template for your README.md file:
+
+markdown
+
+
+# Social Media Application
+
+## Description
+
+This is a simple social media application built using Spring Boot, Hibernate, and PostgreSQL. The application allows users to create and view posts, follow other users, and like posts. Each post has a title, body, and author.
+
+## Features
+
+- User registration and authentication
+- Create, view, and delete posts
+- Follow and unfollow users
+- Like and unlike posts
+
+## Technologies Used
+
+- Spring Boot
+- Hibernate
+- PostgreSQL
+- JUnit and Mockito for testing
+
+## Setup Instructions
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/social-media-app.git
+   cd social-media-app
+Configure the database:
+
+Ensure PostgreSQL is installed and running.
+Create a database named social_media.
+Update src/main/resources/application.properties with your database credentials.
+Build and run the application:
+
+bash
+
+
+./mvnw spring-boot:run
+Access the application:
+
+The application will be running at http://localhost:8080.
+Testing
+Run unit tests using:
+bash
+
+
+./mvnw test
+Quality Checks
+Code quality is ensured using Checkstyle, PMD, and SonarQube.
+Feedback
+Was it easy to complete the task using AI?
+Yes, the AI provided clear guidance and code snippets.
+
+How long did the task take you to complete?
+Approximately 4 hours.
+
+Was the code ready to run after generation? What did you have to change to make it usable?
+The code was mostly ready, but minor adjustments were needed for database configurations.
+
+Which challenges did you face during completion of the task?
+Configuring the database connection and ensuring all dependencies were correctly set up.
+
+Which specific prompts you learned as a good practice to complete the task?
+Breaking down tasks into smaller steps and asking for specific code snippets or configurations.
+
+Chat Logs
+Conversation logs are attached in chat.log.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+
+
+
+Feel free to customize the sections according to your project's specifics and any additional information you want to include.
+Write a command to run the app
+
+Usage statistics
+To run a Spring Boot application, you typically use Maven or Gradle. Assuming your project uses Maven, the command to run the application is:
+
+bash
+
+
+./mvnw spring-boot:run
+This command uses the Maven Wrapper (mvnw) to execute the Spring Boot application. Make sure you are in the root directory of your project where the pom.xml file is located when you run this command.
+
+If your project uses Gradle, the command would be:
+
+bash
+
+
+./gradlew bootRun
+Again, ensure you are in the root directory of your project where the build.gradle file is located. Adjust the command based on the build tool your project is configured with.
